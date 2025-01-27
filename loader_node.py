@@ -1,12 +1,16 @@
 import os
 import re
 import json
+import logging
 import nuke
 
-from loader import PathsHandler, get_loader_config
+import loader_config
+from loader import PathsHandler
 
 
-loader_config = get_loader_config()
+DOCS_URL = "https://github.com/harut-harutyunyan/loader/blob/master/README.md"
+
+loader_logger = loader_config.get_logger()
 
 knob_changed = """
 n = nuke.thisNode()
@@ -63,7 +67,7 @@ class LoaderNode(object):
         node.addKnob(knob)
         
         # docs 
-        knob = nuke.PyScript_Knob("docs", "Documentation", "print(\"TO DO\")")
+        knob = nuke.PyScript_Knob("docs", "Documentation", "import webbrowser\nwebbrowser.open(\"{}\")".format(DOCS_URL))
         node.addKnob(knob)
         knob = nuke.Text_Knob("div1", "")
         node.addKnob(knob)
@@ -108,8 +112,8 @@ class LoaderNode(object):
         knob.setFlag(nuke.STARTLINE)
         node.addKnob(knob)
         
-        node['query_storage'].setValue(json.dumps([list(i) for i in loader_config["default_query"].items()]))
-        node['settings_storage'].setValue(json.dumps([list(i) for i in list(loader_config["default_settings"].items())[:-3]]))
+        node['query_storage'].setValue(json.dumps([list(i) for i in loader_config.default_query.items()]))
+        node['settings_storage'].setValue(json.dumps([list(i) for i in loader_config.default_settings.items()]))
         
         #execution
         knob = nuke.PyScript_Knob("_execute", "execute", "from loader_node import LoaderNode\nLoaderNode.execute(nuke.thisNode())")
@@ -149,7 +153,7 @@ class LoaderNode(object):
             int_numbers = [int(num) for num in numbers]
             return int_numbers
         else:
-            return [int(num) for num in loader_config["default_settings"]["position"].split()]
+            return [int(num) for num in loader_config.position.split()]
 
     @staticmethod
     def deselect_all():
@@ -180,7 +184,7 @@ class LoaderNode(object):
     def get_load_settings(cls, node):
         storage_value = json.loads(node["settings_storage"].getText())
         storage_value = {item[0]: item[1] for item in storage_value}
-        load_settings = {**loader_config["default_settings"], **storage_value}
+        load_settings = {**loader_config.defaults, **storage_value}
         
         return load_settings
         
@@ -192,8 +196,15 @@ class LoaderNode(object):
     def validate(cls, node):
         query_list = cls.get_query_list(node)
 
-        for i in PathsHandler.construct_file_paths(query_list):
-            print(PathsHandler.sequence_path(i))
+        file_list = PathsHandler.construct_file_paths(query_list)
+        if file_list:
+            for i in file_list:
+                loader_logger.info(PathsHandler.sequence_path(i))
+                return True
+        else:
+            loader_logger.info("Failed to construct file path with given parameters")
+            loader_logger.info(query_list)
+            return False
 
     @classmethod
     def how_many_to_load(cls, count, sequences):
@@ -250,12 +261,11 @@ class LoaderNode(object):
     def spawn_node(cls, seq, load_settings):
         seq_path = PathsHandler.sequence_path(seq)
         ext = os.path.splitext(str(seq))[-1]
-        formats = loader_config["formats"]
-        if ext in formats["image"]:
+        if ext in loader_config.formats["image"]:
             node = cls.create_image_node(seq_path, load_settings["deep"])
-        elif ext in formats["geo"]:
+        elif ext in loader_config.formats["geo"]:
             node = cls.create_geo_node(seq_path, load_settings)
-        elif ext in formats["script"]:
+        elif ext in loader_config.formats["script"]:
             node = cls.load_nuke_script(seq_path)
         else:
             print("unknown formt {}. Skipping {}...".format(ext, str(seq)))
@@ -330,12 +340,12 @@ class LoaderNode(object):
         filepath = knob.getEvaluatedValue()
         if os.path.exists(os.path.dirname(filepath)):
             _, filename = os.path.split(filepath)
-            prj_root = os.getenv(loader_config["project_root"], "")
-            prj_name = os.getenv(loader_config["project_name"], "")
+            prj_root = os.getenv(loader_config.project_root, "")
+            prj_name = os.getenv(loader_config.project_name, "")
             project_dir = "{}/{}/".format(prj_root, prj_name)
             filepath = os.path.dirname(filepath.replace(project_dir, ""))
             
-            query_storage = [list(i) for i in loader_config["default_query"].items()]
+            query_storage = [list(i) for i in loader_config.default_query.items()]
             query_storage.extend([["search", i] for i in filepath.split("/")])
 
             if cls.check_sequence(filename):

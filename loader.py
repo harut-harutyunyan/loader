@@ -3,77 +3,15 @@ import re
 import json
 from pathlib import Path
 
+import loader_config
 import third_party.pyseq as pyseq
 
-def get_loader_config():
-    default_config = {
-        "project_root": "MY_PRJ_ROOT",
-        "project_name": "MY_PROJECT_ABBR",
-        "version_prefix": "v",
-        
-        "default_query": {
-            "root": "$MY_PRJ_ROOT$",
-            "show": "$MY_PROJECT_ABBR$",
-            "filename": r"re:\w+[\._]\d+\.exr$",
-        },
-        
-        "default_settings": {
-            "reconnect": "True",
-            "position": "0 -100",
-            "delete_after": "False",
-            "select_loaded": "True",
-            "is_camera": "False",
-            "is_sequence": "True",
-            "load": "all", # available options "all", "first" and "last"
-        },
-        
-        "formats": {
-            "image": [".exr", ".png", ".jpg", ".dpx"],
-            "geo": [".abc", ".usd", ".obj", ".fbx"],
-            "script": [".nk", ".gizmo"]
-        }
-    }
-
-    config_file = os.path.join(os.path.dirname(__file__), "config.json")
-    if not os.path.exists(config_file):
-        with open(config_file, "w") as f:
-            json.dump(default_config, f, indent=4)
-
-    with open(config_file, "r") as f:
-        loader_config = json.load(f)
-
-    if not isinstance(loader_config, dict):
-        loader_config = default_config
-
-    return loader_config
-    
-
 class PathsHandler(object):
-    loader_config = get_loader_config()
 
-    PRJ_ROOT = os.getenv(loader_config["project_root"], "")
-    PRJ_NAME = os.getenv(loader_config["project_name"], "")
-    
-    VERSION_PREFIX = loader_config["version_prefix"]
-    
-    FILE_FOLMATS = [
-                    ".jpg",
-                    ".png",
-                    ".exr",
-                    ".tif",
-                    ".tiff",
-                    ".dpx",
-                    ".hdr",
-                    ".targa",
-                    ".cin",
-                    
-                    ".abc",
-                    ".fbx",
-                    ".obj",
-                    
-                    ".gizmo",
-                    ".nk",
-                    ]
+    PRJ_ROOT = os.getenv(loader_config.project_root, "")
+    PRJ_NAME = os.getenv(loader_config.project_name, "")
+
+    VERSION_PREFIX = loader_config.version_prefix
 
     @staticmethod
     def sequence_path(seq: pyseq.Sequence) -> str:
