@@ -1,5 +1,3 @@
-#nuke #dev
-
 ### query expressions
 
 - #### string
@@ -38,3 +36,5 @@
     `*re:\.exr$` will return all `.exr` files inside all child directories of the parent directory.
 
 ***
+
+![Example Image](docs/test.png)
