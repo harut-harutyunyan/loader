@@ -46,3 +46,4 @@
     ![Example Image](img/qrec.png)
 
 ***
+[< Previous](./installation.md) | [Next>](./settings.md)

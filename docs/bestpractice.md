@@ -1,0 +1,2 @@
+***
+[< Previous](./settings.md)

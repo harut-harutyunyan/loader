@@ -14,3 +14,7 @@ doesn’t exist.
    ```
 
 # 🛠️ Configuration
+
+
+***
+[< Previous](./README.md) | [Next>](./query.md)
