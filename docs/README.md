@@ -2,7 +2,7 @@
 
 Detailed usage and customization.
 
-- [Installation Guide](./docs/installation.md)
-- [Query Expressions](./docs/query.md)
-- [Load Settings](./docs/settings.md)
-- [Best Practices](./docs/bestpractice.md)
+- [Installation Guide](./installation.md)
+- [Query Expressions](./query.md)
+- [Load Settings](./settings.md)
+- [Best Practices](./bestpractice.md)
