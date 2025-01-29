@@ -1,48 +1,51 @@
-### query expressions
 
-- #### string
-    The *string* may contain environment variables encapsulated in `$` sign
+# Loader for Nuke
 
-    `E_$MY_SHOT$_fg01` will be resolved to `E_abc010_0020_fg01`
+![GitHub license](https://img.shields.io/github/license/harut-harutyunyan/loader)
 
-    ![Example Image](docs/qenv.png)
+**Loader** is a powerful tool for **Foundry Nuke** that allows users to efficiently load **image sequences, geometry, and scripts** into Nuke’s node graph using specified queries.
 
-- #### regex
-    Will search in directory using provided *regex* pattern and return all matches.
+![spawn](docs/img/spawn.gif)
 
-    `re:^abc` will be resolved to `abc010_0010, abc010_0020, abc010_0030`
-    regular expressions can contain environment variables encapsulated in `$` sign
-    `re:^$MY_SEQUENCE$` will be resolved to `abc010_0010, abc010_0020, abc010_0030`
+## 🚀 Features
 
-    ![Example Image](docs/qregex.png)
+- **Batch Load Assets** – Quickly bring in multiple image sequences, geometry files, or scripts.
+- **Query-Based Import** – Use structured queries to filter and load only what you need.
+- **Templating** – Automate and standardize shot setups.
+- **Supervisors & Leads** – Ideal for reviewing and managing large volumes of shots.
+- **Automation** – Easily generate contact sheets, batch reformats, apply effects on multiple file.
 
-- #### python
-    Construct file name or path using short *python* expressions.
-    `pd` variable is available. And will return the parent directory.
-    the output of the expression should be a *list* or *str* variable `res`.
+## 🛠️ Installation
 
-    `py:import os\nres=os.listdir(pd)` will be resolved to `abc010_0010, foo015_0010`
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/harut-harutyunyan/loader.git
+   ```
+2. Copy the loader folder and paste it anywhere in your plugin path (like in ~/.nuke).
+3. Open the file init.py inside your ~/.nuke folder with a text editor, or create it if it
+doesn’t exist.
+4. Add the following lines:
+```python
+import nuke
+nuke.pluginAddPath("./loader")
+```
 
-    ![Example Image](docs/qpy.png)
+## 📌 Usage
 
-- #### version search
-    Will search the contents of parent directory for the *version number* provided.
-    Options:
-    - Specific version number `v:1` or `v:001` will be resolved to `abc010_0020_comp_v001`
-    - Latest version `v:latest` will be resolved to `abc010_0020_comp_v004`
-    - All versions `v:all` will be resolved to `abc010_0020_comp_v001, abc010_0020_comp_v002, abc010_0020_comp_v003, abc010_0020_comp_v004`
-    - Previous versions using *negative numbers* `v:-1` will return the `v003` if latest version is `v004`.
-    Version search can be combined with other searching options.
+1. Open **Nuke Loader** from the menu or script editor.
+2. Define your query to load specific assets.
+3. Review, modify, or connect the loaded nodes in the node graph.
 
-    `re:\babc\w*comp\w*\b && v:latest` will be resolved to `abc010_0020_comp_v004`
+## 📖 Documentation
 
-    ![Example Image](docs/qver.png)
+For detailed usage and customization, check out the [documentation](./docs/README.md).
 
-- #### recursive search
-    will search *recursively* the parent directory until it finds the match for the query expression.
+## 🤝 Contributing
 
-    `*re:\.exr$` will return all `.exr` files inside all child directories of the parent directory.
+Pull requests are welcome! If you have suggestions or issues, please open an [issue](https://github.com/harut-harutyunyan/loader/issues).
 
-    ![Example Image](docs/qrec.png)
+## 📜 License
 
-***
+This project is licensed under the [MIT License](./LICENSE).
+
+---
