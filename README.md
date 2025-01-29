@@ -25,10 +25,10 @@
 3. Open the file init.py inside your ~/.nuke folder with a text editor, or create it if it
 doesn’t exist.
 4. Add the following lines:
-```python
-import nuke
-nuke.pluginAddPath("./loader")
-```
+   ```python
+   import nuke
+   nuke.pluginAddPath("./loader")
+   ```
 
 ## 📌 Usage
 

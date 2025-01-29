@@ -5,7 +5,7 @@
 
     `E_$MY_SHOT$_fg01` will be resolved to `E_abc010_0020_fg01`
 
-    ![Example Image](docs/qenv.png)
+    ![Example Image](docs/img/qenv.png)
 
 - #### regex
     Will search in directory using provided *regex* pattern and return all matches.
@@ -14,7 +14,7 @@
     regular expressions can contain environment variables encapsulated in `$` sign
     `re:^$MY_SEQUENCE$` will be resolved to `abc010_0010, abc010_0020, abc010_0030`
 
-    ![Example Image](docs/qregex.png)
+    ![Example Image](docs/img/qregex.png)
 
 - #### python
     Construct file name or path using short *python* expressions.
@@ -23,7 +23,7 @@
 
     `py:import os\nres=os.listdir(pd)` will be resolved to `abc010_0010, foo015_0010`
 
-    ![Example Image](docs/qpy.png)
+    ![Example Image](docs/img/qpy.png)
 
 - #### version search
     Will search the contents of parent directory for the *version number* provided.
@@ -36,13 +36,13 @@
 
     `re:\babc\w*comp\w*\b && v:latest` will be resolved to `abc010_0020_comp_v004`
 
-    ![Example Image](docs/qver.png)
+    ![Example Image](docs/img/qver.png)
 
 - #### recursive search
     will search *recursively* the parent directory until it finds the match for the query expression.
 
     `*re:\.exr$` will return all `.exr` files inside all child directories of the parent directory.
 
-    ![Example Image](docs/qrec.png)
+    ![Example Image](docs/img/qrec.png)
 
 ***
