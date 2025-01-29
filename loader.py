@@ -8,10 +8,10 @@ import third_party.pyseq as pyseq
 
 class PathsHandler(object):
 
-    PRJ_ROOT = os.getenv(loader_config.project_root, "")
-    PRJ_NAME = os.getenv(loader_config.project_name, "")
+    PRJ_ROOT = os.getenv(loader_config.ROOT_PATH, "")
+    PRJ_NAME = os.getenv(loader_config.PRJ_NAME, "")
 
-    VERSION_PREFIX = loader_config.version_prefix
+    VERSION_PREFIX = loader_config.VERSION_PREFIX
 
     @staticmethod
     def sequence_path(seq: pyseq.Sequence) -> str:

@@ -340,8 +340,8 @@ class LoaderNode(object):
         filepath = knob.getEvaluatedValue()
         if os.path.exists(os.path.dirname(filepath)):
             _, filename = os.path.split(filepath)
-            prj_root = os.getenv(loader_config.project_root, "")
-            prj_name = os.getenv(loader_config.project_name, "")
+            prj_root = os.getenv(loader_config.ROOT_PATH, "")
+            prj_name = os.getenv(loader_config.PRJ_NAME, "")
             project_dir = "{}/{}/".format(prj_root, prj_name)
             filepath = os.path.dirname(filepath.replace(project_dir, ""))
             

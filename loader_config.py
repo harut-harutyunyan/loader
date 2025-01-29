@@ -11,16 +11,19 @@ import logging
 # ----------------------------------------------
 # 1. MAIN DEFAULTS
 # ----------------------------------------------
+
+EXECUTION_SHORTCUT = "Shift+E"
+
 # Root folder where your projects are stored. Usually it is assigned to an environment variable(i.e. "MY_PRJ_ROOT"). This variable should be set to that variable. It is required to have this set to environment variable.
 # You can  set a project root vaaiable using code below.
 # os.environ["MY_PRJ_ROOT"] = "/path/to/root"
-project_root = "MY_PRJ_ROOT"
+ROOT_PATH = "MY_PRJ_ROOT"
 
 # Project name is the folder name of your project that is in project root. In pipelines usually it is assigned to a variable. If not you can ignore this variable and use a string query instead.
-project_name = "MY_PROJECT_ABBR"
+PRJ_NAME = "MY_PROJECT_ABBR"
 
 # The version prefix is usually starting with "v"(i.e. v001, v01) but in case you use different prefix, change it here.
-version_prefix = "v"
+VERSION_PREFIX = "v"
 
 # ----------------------------------------------
 # 2. LOAD SETTINGS
@@ -49,26 +52,14 @@ camera = False
 # Use classic 3d nodes(old 3d system) to load the 3d file.
 classic3d = True
 
-# Please ignore the dict. below.
-defaults = {
-    "reconnect": str(reconnect),
-    "position": position,
-    "delete_after": str(delete_after),
-    "select_loaded": str(select_loaded),
-    "load": load,
-    "deep": str(deep),
-    "classic3d": str(classic3d),
-    "camera": str(camera),
-    }
-
 # ----------------------------------------------
 # 3. DEFAULT QUERY
 # ----------------------------------------------
 # This is the search query that will be loaded by default when you create a loader node.
 # Every item in the dict. below is a search line.
 default_query = {
-    "root": "${}$".format(project_root),
-    "show": "${}$".format(project_name),
+    "root": "${}$".format(ROOT_PATH),
+    "show": "${}$".format(PRJ_NAME),
     "seq": "$MY_SEQUENCE$",
     "shot": "$MY_SHOT$",
     "task": "comp",
@@ -83,7 +74,6 @@ default_query = {
 # This is the settings that will be displayed when you create a loader node.
 # It can be the settings that is visibe to the user, and may not contain all the settings variable listeg in section 2.
 default_settings = {
-    "reconnect": str(reconnect),
     "position": position,
     "select_loaded": str(select_loaded),
     "load": load,
@@ -105,9 +95,9 @@ formats = {
 
 
 # ----------------------------------------------
-# 5. LOGGER. DO NOT CHANGE UNLESS NEEDED.
+# DO NOT CHANGE.
 # ----------------------------------------------
-
+# Setup logging
 def get_logger(name="loader", log_file=None, level=logging.INFO):
     """Create and configure a logger specifically for the plugin."""
     # Create a custom logger
@@ -136,3 +126,15 @@ def get_logger(name="loader", log_file=None, level=logging.INFO):
         logger.addHandler(handler)
 
     return logger
+
+# Please ignore the dict. below.
+defaults = {
+    "reconnect": str(reconnect),
+    "position": position,
+    "delete_after": str(delete_after),
+    "select_loaded": str(select_loaded),
+    "load": load,
+    "deep": str(deep),
+    "classic3d": str(classic3d),
+    "camera": str(camera),
+    }
