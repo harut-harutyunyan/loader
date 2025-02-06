@@ -30,12 +30,6 @@ doesn’t exist.
    nuke.pluginAddPath("./loader")
    ```
 
-## 📌 Usage
-
-1. Open **Nuke Loader** from the menu or script editor.
-2. Define your query to load specific assets.
-3. Review, modify, or connect the loaded nodes in the node graph.
-
 ## 📖 Documentation
 
 For detailed usage and customization, check out the [documentation](./docs/README.md).

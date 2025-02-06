@@ -8,7 +8,7 @@ import loader_config
 from loader import PathsHandler
 
 
-DOCS_URL = "https://github.com/harut-harutyunyan/loader/blob/master/README.md"
+DOCS_URL = "https://github.com/harut-harutyunyan/loader/blob/master/docs/README.md"
 
 loader_logger = loader_config.get_logger()
 
@@ -356,3 +356,13 @@ class LoaderNode(object):
             query_storage.append(["filename", filename_query])
             node["query_storage"].setValue(json.dumps(query_storage))
             
+
+def is_loader(node):
+    if node.knob("loader") and node.knob("_execute"):
+        return True
+    return False
+
+def load_selected():
+    for node in nuke.selectedNodes():
+        if is_loader(node):
+            node.knob("_execute").execute()
